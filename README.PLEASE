@@ -2,9 +2,12 @@ BUIDL IT - The metaverse YOU BUIDL
 
 Based on Three.js a 3d library written in javascript.
 
-concept - 
+Some of the possibilities and capabilities of this little library are available to see and PLAY here
+https://buidlit.parallelshift.space/models/Three-js-playground-master-node-a-very-good-example-of-what-we-can-achieve
 
-An instance of the Three.js playground that we finalise as the base instance will be copied 
+concept -  You earn a little and you give a little and you learn a little - cooperative coding metaverse
+
+Based on An instance of the Three.js playground that we finalise as the base instance will be copied 
 as a fresh blank instance to an IPFS location on purchase of an NFT from the BUIDL IT project.
 
 The NFT will become the direct owner of this IPFS location.
@@ -30,6 +33,7 @@ UTILITY TOKEN
 We will mint 10 Million ERC20 tokens and use them accross the platform for everything from 
 rewards and incentives to discounted operations within the MetaVerse.
 
+Staking will be active on the Utility Token to enable good stability & liquidity with locking periods of 3-6 and 12 months
 
 
 
