@@ -1,0 +1,43 @@
+BUIDL IT - The metaverse YOU BUIDL
+
+Based on Three.js a 3d library written in javascript.
+
+concept - 
+
+An instance of the Three.js playground that we finalise as the base instance will be copied 
+as a fresh blank instance to an IPFS location on purchase of an NFT from the BUIDL IT project.
+
+The NFT will become the direct owner of this IPFS location.
+
+The server (will be also on IPFS decentralised at later date) can connect and update this 
+folder via local IPFS interaction, thus the content is rendered editable by the owner of the NFT.
+
+ANYTHING that is possible within the Three.js Cannon.js framework is acceptable.
+
+Marketplace will be developed where players can buy and sell their own assets to each other.
+secondary marketplace will be developed for injection of new quality models in to the metaverse.
+incentives will be given to modellers
+
+% of all sales and all other transactions will always feed back to NFT Holders
+
+ALL FEATURES OTHER THAN THE PROTOTYPE 3D NFT VIEWER ARE TO BE PLANNED AGREED AND BUILT 
+MOVING FORWARDS WITH THE SUPPORT OF THE COMMUNITY OF NFT HOLDERS.
+
+web site will be designed with back end for governance by those who hold NFTs
+
+UTILITY TOKEN
+
+We will mint 10 Million ERC20 tokens and use them accross the platform for everything from 
+rewards and incentives to discounted operations within the MetaVerse.
+
+
+
+
+site pages also to include: 
+BUIDL page for editing the WORLD, 
+MODEL EDIT page for editing owned models, 
+MODEL TEXTUR/SHADE page for texturing and shaders
+MODEL VIEWER page
+MODEL UP/DOWN page for import/export to IPFS
+
+the above pages will only work for the NFT Holders

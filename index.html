@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="./style.css">
+  <meta charset="UTF-8" http-equiv="Content-Security-Policy" content="">
+  <title>Build IT</title>
+
+</head>
+
+<body>
+
+  <div>
+    <div id="Nav">
+      <button id="button" onClick="showbox1()">Game Information</button>
+      <button id="button" onClick="showbox2()">View Example world</button>
+      <button id="button" onClick="window.location.reload()">Token Contract</button>
+      <button id="button" onClick="window.location.reload()">NFT Contract</button>
+      <button id="button" onClick="window.location.reload()">WhitePaper</button>
+      <button id="button" onClick="window.location.reload()">Tokenomics</button>
+    </div>
+
+    <div id="logo">
+      <img src="./img/titleblk.png"></img>
+    </div>
+
+    <div id="box_button1" style="display: none; ">
+      <center>
+        <font color="red">(CLASSIFIED 1)</font>
+      </center><br>
+      <script>
+        function showbox1() {
+          if (document.getElementById("box_button2").style.display == "block" || document.getElementById("box_button2").style.display == "")
+            document.getElementById("box_button2").style.display = "none"
+          if (document.getElementById("box_button1").style.display == "block" || document.getElementById("box_button1").style.display == "")
+            document.getElementById("box_button1").style.display = "none"
+          else
+            document.getElementById("box_button1").style.display = "block"
+        }
+      </script>
+    </div>
+
+
+  <div id="box_button2" style="display: none;">
+    <button id='buybutton' onClick='showbox3()'>click</button>
+    
+      <script  type="module" src="scr2.js"></script>
+
+      <script>
+             function showbox3() {
+          if (document.getElementById("box_button2").style.display == "block" || document.getElementById("box_button2").style.display == "")
+            document.getElementById("box_button2").style.display = "none"
+          if (document.getElementById("box_").style.display == "block" || document.getElementById("box_").style.display == "")
+            document.getElementById("box_").style.display = "none"
+          else
+            document.getElementById("box_").style.display = "block"
+        }
+        function showbox2() {
+          if (document.getElementById("box_button1").style.display == "block" || document.getElementById("box_button1").style.display == "")
+            document.getElementById("box_button1").style.display = "none"
+          if (document.getElementById("box_button2").style.display == "block" || document.getElementById("box_button2").style.display == "")
+            document.getElementById("box_button2").style.display = "none"
+          else
+            document.getElementById("box_button2").style.display = "block"
+        }
+      </script>
+
+    </div>
+
+    <div id="box_" style="display: none;">
+      <button id='buybutton' onClick='showbox2()'>click</button>
+      
+        <script  type="module" src="scr1.js"></script>
+  
+        <script>
+          function showbox2() {
+            if (document.getElementById("box_").style.display == "block" || document.getElementById("box_").style.display == "")
+              document.getElementById("box_").style.display = "none"
+            if (document.getElementById("box_button2").style.display == "block" || document.getElementById("box_button2").style.display == "")
+              document.getElementById("box_button2").style.display = "none"
+            else
+              document.getElementById("box_button2").style.display = "block"
+          }
+        </script>
+  
+      </div>
+
+
+    <div id="infobottom">    <div id="polygonlogo">
+      <img src="./img/polygon_logo.png"></img>
+    </div>  
+      Your very own fully interactive 3D "Build IT" NFT
+    </div>
+
+  </div>
+</body>
+
+</html>
