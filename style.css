@@ -22,8 +22,10 @@ body {
 }
 
 #box_button1{
-background-color: rgba(0, 0, 0, 0.644);  /* background-size: cover;   */
-color: aquamarine;  
+background-color: rgba(0, 0, 0, 0.932);  /* background-size: cover;   */
+color: aquamarine;
+padding: 30px;  
+overflow:scroll !important;
 border: 10px rgb(0, 89, 255) solid;
   /* text-align: center; */
   border-radius: 8px;
@@ -32,7 +34,7 @@ border: 10px rgb(0, 89, 255) solid;
 }
 
 #box_button2{
-  background-color: rgba(0, 0, 0, 0.644);  /* background-size: cover;   */
+  background-color: rgb(0, 0, 0);  /* background-size: cover;   */
   /* background-size: cover;   */
   /* margin: 2; */
   border: 10px rgb(0, 0, 0) solid;
@@ -57,8 +59,8 @@ border: 10px rgb(0, 89, 255) solid;
   position:absolute;
   background-color: rgb(0, 136, 11);
   margin-top: 15px;
-  height: 28px;
-  width: 60px;
+  height: 35px;
+  width: 65px;
   margin-left: 15px;
   font-family: Arial;
   font-size: 25px;
@@ -67,7 +69,13 @@ border: 10px rgb(0, 89, 255) solid;
   border-radius: 4px;
   color: rgb(255, 255, 255);
 }
-
+#eth{
+  position:relative;
+  height: 25%;
+  z-index:-10;
+  /* bottom: 170px; */
+  /* left: 60px; */
+}
 #polygonlogo{
   position:absolute;
   height: 35%;
