@@ -14,7 +14,7 @@ contract Buidl_IT {
     address public dev_marketing_wallet; 
     address private pancakePairAddress; // the pancakeswap pair address.
     uint public liquidityLockTime = 0 days; // how long do we lock up liquidity
-    uint public liquidityLockCooldown;// cooldown period for changes to liquidity settings and removal
+    uint public liquidityLockCooldown;// cooldown period for liquidity removal
 
     mapping(address => uint256) public balanceOf;
     mapping(address => mapping(address => uint256)) private _allowances;
