@@ -7,7 +7,7 @@ import "./Libraries.sol";
 contract Buidl_IT {
     string public name = "Buidl IT Token";
     string public symbol = "BUIDL";
-    uint256 public totalSupply = 15000000; // 100 millon
+    uint256 public totalSupply = 15000000; // 15 millon
     uint8 public decimals = 0;
 
     IUniswapV2Router02 router; // Router.
@@ -20,7 +20,7 @@ contract Buidl_IT {
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
-    
+
     //what came first the chicken or the egg? easier to trust myself and just have the balance available to 
     //pass to the relevant contracts - it will be on public ledger so obvious
 
