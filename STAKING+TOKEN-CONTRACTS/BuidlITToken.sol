@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.6;
 //testnet router: https://pancake.kiemtienonline360.com/- 0x9Ac64Cc6e4415144C455BD8E4837Fea55603e5c3 
-//shit wallet-3 -0x22204A6bd11965F19F3ccf64541f34EcdF560d45- 0xD12BF4c31b4aE8de5a89D0cDD05a1a5014560569 
+//shit wallet-3 -0x22204A6bd11965F19F3ccf64541f34EcdF560d45
 import "./Libraries.sol";
 
 contract Buidl_IT {
@@ -10,13 +10,9 @@ contract Buidl_IT {
     uint256 public totalSupply = 15000000; // 100 millon
     uint8 public decimals = 0;
 
-    address public dev_marketing_wallet; // marownerketing
-    address public staking_contract; // staking contract
-    address private vendor_contract; // team vesting contract
-
     IUniswapV2Router02 router; // Router.
     address private pancakePairAddress; // the pancakeswap pair address.
-    uint public liquidityLockTime = 0 days; // how long do we lock up liquidity
+    uint public liquidityLockTime = 365 days; // how long do we lock up liquidity
     uint public liquidityLockCooldown;// cooldown period for changes to liquidity settings and removal
 
     mapping(address => uint256) public balanceOf;
@@ -24,31 +20,18 @@ contract Buidl_IT {
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
+    
+    //what came first the chicken or the egg? easier to trust myself and just have the balance available to 
+    //pass to the relevant contracts - it will be on public ledger so obvious
 
-    constructor(
-        address _dev_marketing_wallet, 
-        address _staking_contract, 
-        address _vendor_contract) {
-
+    constructor(address _dev_marketing_wallet) {
         dev_marketing_wallet = _dev_marketing_wallet;
-        staking_contract = _staking_contract;
-        vendor_contract = _vendor_contract;
-
-        router = IUniswapV2Router02(0x9Ac64Cc6e4415144C455BD8E4837Fea55603e5c3);//router address for pair creation
+        //router address for liquidity pair creation
+        router = IUniswapV2Router02(0x9Ac64Cc6e4415144C455BD8E4837Fea55603e5c3);
         pancakePairAddress = IPancakeFactory(router.factory()).createPair(address(this), router.WETH());
-        
-        uint _dev_Marketing_Tokens =     150000;
-        uint _staking_contract_Tokens =   7425000;
-        uint _vendor_contract_Tokens =   7425000;
-
-        uint _contractTokens = totalSupply - (_vendor_contract_Tokens + _dev_Marketing_Tokens + _staking_contract_Tokens);
-
-        balanceOf[dev_marketing_wallet] = _dev_Marketing_Tokens;
-        balanceOf[staking_contract] = _staking_contract_Tokens;
-        balanceOf[vendor_contract] = _vendor_contract_Tokens;
-
-        balanceOf[address(this)] = _contractTokens;
-    }
+        //initial balance to dev wallet to be split between vendor contract and staking rewards contract
+        uint _dev_Marketing_Tokens = 15000000;// 99% to staking/vendor 7425000  each 150000 to dev
+        balanceOf[dev_marketing_wallet] = _dev_Marketing_Tokens;    }
 
     modifier onlyOwner() {
         require(msg.sender == dev_marketing_wallet, 'You must be the owner.');
@@ -135,6 +118,20 @@ contract Buidl_IT {
 
         liquidityLockCooldown = block.timestamp + liquidityLockTime;
 
+        router.addLiquidityETH{value: msg.value}(
+            address(this),
+            _tokenAmount,
+            0,
+            0,
+            address(this),
+            block.timestamp
+        );
+    }
+
+    //same function but does not advance the lock time so allows more liquidity
+    function addLiquidityRnd(uint _tokenAmount) public payable onlyOwner {
+        require(_tokenAmount > 0 || msg.value > 0, "Insufficient tokens or BNBs.");
+        _approve(address(this), address(router), _tokenAmount);
         router.addLiquidityETH{value: msg.value}(
             address(this),
             _tokenAmount,
