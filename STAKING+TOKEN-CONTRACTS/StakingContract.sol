@@ -3,7 +3,7 @@ pragma solidity ^0.8.6;
 import "./BuidlITToken.sol";
 /////////////////////////////
 contract TokenStaking is ReentrancyGuard{
-    string public name = "Farming / Token dApp";
+    string public name = "Buidl IT Staking Platform";
     BuidlITToken public BuidlITToken;
         uint public stakeLock; 
         uint public stakeCooldownTime = 180 days; //stake locked time 6 months 180 days
