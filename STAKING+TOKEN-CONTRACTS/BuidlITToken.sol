@@ -11,8 +11,9 @@ contract Buidl_IT {
     uint8 public decimals = 0;
 
     IUniswapV2Router02 router; // Router.
+    address public dev_marketing_wallet; 
     address private pancakePairAddress; // the pancakeswap pair address.
-    uint public liquidityLockTime = 365 days; // how long do we lock up liquidity
+    uint public liquidityLockTime = 0 days; // how long do we lock up liquidity
     uint public liquidityLockCooldown;// cooldown period for changes to liquidity settings and removal
 
     mapping(address => uint256) public balanceOf;
@@ -30,10 +31,14 @@ contract Buidl_IT {
         router = IUniswapV2Router02(0x9Ac64Cc6e4415144C455BD8E4837Fea55603e5c3);
         pancakePairAddress = IPancakeFactory(router.factory()).createPair(address(this), router.WETH());
         //initial balance to dev wallet to be split between vendor contract and staking rewards contract
-        uint _dev_Marketing_Tokens = 15000000;// 99% to staking/vendor 7425000  each 150000 to dev
-        balanceOf[dev_marketing_wallet] = _dev_Marketing_Tokens;    }
+        uint _dev_Marketing_Tokens = 10000000;//10000000 to dev to be left with 100000 
+        uint _thiscontract_Tokens = 5000000;//10000000 to dev to be left with 100000 
+        _approve(address(this), address(dev_marketing_wallet), _dev_Marketing_Tokens);
+        //5000000 left here for liquidity 4950000 each to staking rewards and vendor
+        balanceOf[dev_marketing_wallet] = _dev_Marketing_Tokens; 
+        balanceOf[address(this)] = _thiscontract_Tokens;         }
 
-    modifier onlyOwner() {
+         modifier onlyOwner() {
         require(msg.sender == dev_marketing_wallet, 'You must be the owner.');
         _;
     }
@@ -113,7 +118,6 @@ contract Buidl_IT {
     
     function addLiquidity(uint _tokenAmount) public payable onlyOwner {
         require(_tokenAmount > 0 || msg.value > 0, "Insufficient tokens or BNBs.");
-        
         _approve(address(this), address(router), _tokenAmount);
 
         liquidityLockCooldown = block.timestamp + liquidityLockTime;
@@ -128,7 +132,7 @@ contract Buidl_IT {
         );
     }
 
-    //same function but does not advance the lock time so allows more liquidity
+    //same function but does not advance the lock time so allows more liquidity - you have to send some buidl to the contract first
     function addLiquidityRnd(uint _tokenAmount) public payable onlyOwner {
         require(_tokenAmount > 0 || msg.value > 0, "Insufficient tokens or BNBs.");
         _approve(address(this), address(router), _tokenAmount);
