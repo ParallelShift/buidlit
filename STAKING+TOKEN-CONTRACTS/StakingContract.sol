@@ -3,10 +3,10 @@ pragma solidity ^0.8.11;
 import "./BuidlITToken.sol";
 /////////////////////////////
 contract TokenStaking is ReentrancyGuard{
-    BuidlITToken public tokenx;
+    BuidlITToken public buidlITToken;
     string public name = "Buidl IT Staking Platform";
         uint public stakeLock; 
-        uint public stakeCooldownTime = 180 days; //stake locked time 6 months 180 days
+        uint public stakeCooldownTime = 0 days; //stake locked time 6 months 180 days
         uint public claimReady; 
         uint public rewards_claim_frequency = 0 days; // cooldown time
 
@@ -21,8 +21,8 @@ contract TokenStaking is ReentrancyGuard{
     mapping(address => bool) public isStakingAtm;
     address[] public stakers;
 
-    constructor(BuidlITToken _tokenx) payable {
-        tokenx = _tokenx;
+    constructor(BuidlITToken _buidlITToken) payable {
+        buidlITToken = _buidlITToken;
         owner = msg.sender;
         claimReady = block.timestamp + rewards_claim_frequency;
     }
@@ -39,7 +39,7 @@ contract TokenStaking is ReentrancyGuard{
     function stakeTokens(uint256 _amount) public {
         require(_amount > 0, "amount cannot be 0");
         stakeLock = block.timestamp + stakeCooldownTime;
-        tokenx.transferFrom(msg.sender, address(this), _amount);
+        buidlITToken.transferFrom(msg.sender, address(this), _amount);
         totalStaked = totalStaked + _amount;
         stakingBalance[msg.sender] = stakingBalance[msg.sender] + _amount;
         if (!hasStaked[msg.sender]) 
@@ -52,7 +52,7 @@ contract TokenStaking is ReentrancyGuard{
         require(stakeLock <= block.timestamp, "You can't claim now.");
         uint256 balance = stakingBalance[msg.sender];
         require(balance > 0, "amount has to be more than 0");
-        tokenx.transfer(msg.sender, balance);
+        buidlITToken.transfer(msg.sender, balance);
         totalStaked = totalStaked - balance;
         stakingBalance[msg.sender] = 0;
         isStakingAtm[msg.sender] = false;
@@ -61,14 +61,14 @@ contract TokenStaking is ReentrancyGuard{
     function claimRewards() public {
         require(isStakingAtm[msg.sender], "you are not staked");
         require(claimReady <= block.timestamp, "You can't claim now.");
-        require(tokenx.balanceOf(address(this)) > 0, "Insufficient Balance there are no more staking rewards.");
+        require(buidlITToken.balanceOf(address(this)) > 0, "Insufficient Balance there are no more staking rewards.");
 
         uint256 withdrawable = mulScale(stakingBalance[msg.sender], 100, 10000); 
         // 100/ 10000 basis points = 1%        
             if (withdrawable > 0) {
                 claimReady = block.timestamp + rewards_claim_frequency;
-                // tokenx.transfer(recipient, 111);
-                tokenx.transferFrom(address(this), msg.sender, withdrawable);
+                // buidlITToken.transfer(recipient, 111);
+                buidlITToken.transferFrom(address(this), msg.sender, withdrawable);
                 withdrawable = 0;
             }
     }
