@@ -27,14 +27,16 @@ contract Buidl_IT {
 
     constructor(address _dev_marketing_wallet) {
         dev_marketing_wallet = _dev_marketing_wallet;
-        //router address for liquidity pair creation
+ //router address for liquidity pair creation
         router = IUniswapV2Router02(0x9Ac64Cc6e4415144C455BD8E4837Fea55603e5c3);
         pancakePairAddress = IPancakeFactory(router.factory()).createPair(address(this), router.WETH());
-        //initial balance to dev wallet to be split between vendor contract and staking rewards contract
-        uint _dev_Marketing_Tokens = 10000000;//10000000 to dev to be left with 100000 
-        uint _thiscontract_Tokens = 5000000;//10000000 to dev to be left with 100000 
+        
+ //initial balance to dev wallet to be split between vendor contract and staking rewards contract
+        uint _dev_Marketing_Tokens = 10000000;      //10000000 to dev to be left with 100000 
+        uint _thiscontract_Tokens = 5000000;        //5000000 in this contract for liquidity at PCS 
         _approve(address(this), address(dev_marketing_wallet), _dev_Marketing_Tokens);
-        //5000000 left here for liquidity 4950000 each to staking rewards and vendor
+        
+ //5000000 left here for liquidity 4950000 each to staking rewards and vendor
         balanceOf[dev_marketing_wallet] = _dev_Marketing_Tokens; 
         balanceOf[address(this)] = _thiscontract_Tokens;         }
 
