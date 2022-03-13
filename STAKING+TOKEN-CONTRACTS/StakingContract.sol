@@ -37,7 +37,7 @@ contract TokenStaking is ReentrancyGuard{
     }
 
     function stakeTokens(uint256 _amount) public {
-        require(_amount > 0, "amount cannot be 0");
+        require(_amount > 100, "amount cannot be less than 100 BUIDL");
         stakeLock = block.timestamp + stakeCooldownTime;
         buidlITToken.transferFrom(msg.sender, address(this), _amount);
         totalStaked = totalStaked + _amount;
@@ -68,7 +68,7 @@ contract TokenStaking is ReentrancyGuard{
             if (withdrawable > 0) {
                 claimReady = block.timestamp + rewards_claim_frequency;
                 // buidlITToken.transfer(recipient, 111);
-                buidlITToken.transferFrom(address(this), msg.sender, withdrawable);
+                buidlITToken.transfer(msg.sender, withdrawable);
                 withdrawable = 0;
             }
     }
