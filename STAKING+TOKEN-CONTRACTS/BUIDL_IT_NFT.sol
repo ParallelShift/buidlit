@@ -42,7 +42,7 @@ contract BuidlITNFT is Ownable, ERC721  {
 //data types as its types and then we can use them adhoc
 
   struct BuidlIT_Asset {
-    address payable owner;
+    uint8 id;
     string name; //name of asset
     uint8 xpos;
     uint8 ypos; 
@@ -56,23 +56,55 @@ contract BuidlITNFT is Ownable, ERC721  {
     bool extrabool;    /// true or false?? i may need this?
     }
 
+    struct BuidlIT_User {
+        uint8 id;
+        uint age;
+        string fName;
+        string lName;
+    }
+    
+    mapping (address => BuidlIT_User) users;
+    address[] public userAccts;
+    
     BuidlIT_Asset[] public B_assets;
 
     constructor() ERC721("BuidlIT NFT", "IT") {
         setHiddenMetadataUri("https://buidlit.parallelshift.space/img/logo.jpg");
         B_assets.push(
             BuidlIT_Asset(
-                payable(0x0000000000000000000000000000000000000000), "BuidlIT Base Character", 0, 0, 0, 1, "model0.glb", "texture0.png", "", 0, "", false
+                0, "BuidlIT Base Character", 0, 0, 0, 1, "model0.glb", "texture0.png", "", 0, "", false
             )
         );
     }
+
+    function setBuidlIT_User(uint _age, string memory _fName, string memory _lName) public {
+        
+        users[msg.sender].id = 0;
+        users[msg.sender].age = _age;
+        users[msg.sender].fName = _fName;
+        users[msg.sender].lName = _lName;
+        
+        // userAccts.push(_address) -1;
+    }
+    
+    function getBuidlIT_Users() view public returns(address[] memory) {
+        return userAccts;
+    }
+    
+    function getBuidlIT_User(address _address) view public returns (uint, string memory, string memory) {
+        return (users[_address].age, users[_address].fName, users[_address].lName);
+    }
+    
+    function countBuidlIT_Users() view public returns (uint) {
+        return userAccts.length;
+    } 
 
     function addAsset(string memory _name, uint8 _xpos, uint8 _ypos, uint8 _zpos, uint8 _scale, string memory _modelURL, string memory _textureURL,
         string memory _extraURL, uint8 _extranum, string memory _extrastring, bool _extrabool)  
          public onlyOwner
     {
         B_assets.push(
-        BuidlIT_Asset(payable(msg.sender), _name, _xpos, _ypos, _zpos, _scale, _modelURL, _textureURL, _extraURL, _extranum, _extrastring, _extrabool)
+        BuidlIT_Asset(users[msg.sender].id, _name, _xpos, _ypos, _zpos, _scale, _modelURL, _textureURL, _extraURL, _extranum, _extrastring, _extrabool)
         );
     }
 
