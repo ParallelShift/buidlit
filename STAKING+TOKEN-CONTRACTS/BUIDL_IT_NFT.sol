@@ -21,70 +21,46 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract BuidlITNFT is Ownable, ERC721  {
   using Strings for uint256;
-        using Counters for Counters.Counter;
-
-            Counters.Counter private supply;
+  using Counters for Counters.Counter;
+  Counters.Counter private supply;
 
   string public uriPrefix = "";
   string public uriSuffix = ".json";
   string public hiddenMetadataUri;  ///// do we need to hide metadata??? can we use this functionality for something else??
   
-  uint256 public cost = 0.01 ether;  ////doesnt need 0000 x 18 here but does once launched to change
-  uint256 public maxSupply = 10000;  //total NFTS
-  uint256 public maxMintAmountPerTx = 5;  // max mint per wallet transaction
+  uint256 public cost = 135 ether;  ////doesnt need 0000 x 18 here but does once launched to change on polygon at this moment = $250
+  uint256 public maxSupply = 100;  //total NFTS v1 legacy THIS CONTRACT 29/march/2022 one hundred 100
+  uint256 public maxMintAmountPerTx = 1;  // max mint per wallet transaction
 
   bool public paused = true;
   bool public revealed = false;
 
-///////////////here goes, we need a struct for data we will pull later
-//////////////  thing is we dont really know exactly what data and we wont be able to change it
-//soooooooooooooo   lets do a horrible thing and make a struct and fill it with our own custom
-//data types as its types and then we can use them adhoc
-
-  struct BuidlIT_Asset {
-    uint8 id;
-    string name; //name of asset
-    uint8 xpos;
-    uint8 ypos; 
-    uint8 zpos;
-    uint8 scale;
-    string modelURL;//where is it stored the glb
-    string textureURL;//where is the texture if its not baked
-    string extraURL;    //a spare url slot - you never know
-    uint256 extranum;    //256 spare number slots for throwing data around
-    string extrastring;    // a spare string
-    bool extrabool;    /// true or false?? i may need this?
-    }
-
     struct BuidlIT_User {
         uint8 id;
-        uint age;
-        string fName;
-        string lName;
+        string nick;
+        string glb;
+        string extra;
+        string extra1;
     }
     
     mapping (address => BuidlIT_User) users;
     address[] public userAccts;
     
-    BuidlIT_Asset[] public B_assets;
 
     constructor() ERC721("BuidlIT NFT", "IT") {
         setHiddenMetadataUri("https://buidlit.parallelshift.space/img/logo.jpg");
-        B_assets.push(
-            BuidlIT_Asset(
-                0, "BuidlIT Base Character", 0, 0, 0, 1, "model0.glb", "texture0.png", "", 0, "", false
-            )
-        );
+       
     }
 
-    function setBuidlIT_User(uint _age, string memory _fName, string memory _lName) public {
+    function setBuidlIT_User(uint _nick, string memory _glb, string memory _extra, string memory _extra1) public {
         
         users[msg.sender].id = 0;
-        users[msg.sender].age = _age;
-        users[msg.sender].fName = _fName;
-        users[msg.sender].lName = _lName;
+        users[msg.sender].nick = _nick;
+        users[msg.sender].glb = _glb;
+        users[msg.sender].extra = _extra;
+        users[msg.sender].extra1 = _extra1;
         
-        // userAccts.push(_address) -1;
+        userAccts.push(_address) -1;
     }
     
     function getBuidlIT_Users() view public returns(address[] memory) {
@@ -92,25 +68,13 @@ contract BuidlITNFT is Ownable, ERC721  {
     }
     
     function getBuidlIT_User(address _address) view public returns (uint, string memory, string memory) {
-        return (users[_address].age, users[_address].fName, users[_address].lName);
+        return (users[_address].nick, users[_address].glb, users[_address].extra, users[_address].extra1);
     }
     
     function countBuidlIT_Users() view public returns (uint) {
         return userAccts.length;
     } 
 
-    function addAsset(string memory _name, uint8 _xpos, uint8 _ypos, uint8 _zpos, uint8 _scale, string memory _modelURL, string memory _textureURL,
-        string memory _extraURL, uint8 _extranum, string memory _extrastring, bool _extrabool)  
-         public onlyOwner
-    {
-        B_assets.push(
-        BuidlIT_Asset(users[msg.sender].id, _name, _xpos, _ypos, _zpos, _scale, _modelURL, _textureURL, _extraURL, _extranum, _extrastring, _extrabool)
-        );
-    }
-
-    function getAssets() public view returns(BuidlIT_Asset[] memory) {
-        return B_assets;
-    }
 
     modifier mintCompliance(uint256 _mintAmount) {
         require(_mintAmount > 0 && _mintAmount <= maxMintAmountPerTx, "Invalid");
@@ -125,7 +89,6 @@ contract BuidlITNFT is Ownable, ERC721  {
     function mint(uint256 _mintAmount) public payable mintCompliance(_mintAmount) {
         require(!paused, "paused!");
         require(msg.value >= cost * _mintAmount, "funds!");
-
         _mintLoop(msg.sender, _mintAmount);
     }
 
